@@ -39,14 +39,14 @@ fn build() {
         .files([PathBuf::from(EDFLIB_SOURCE_DIR).join(EDFLIB_SRC)])
         .include(PathBuf::from(EDFLIB_SOURCE_DIR));
 
-    let target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
-    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    let _target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+    let _target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let is_release = env::var("PROFILE").unwrap() == "release";
-    let compiler = build.get_compiler();
+    let _compiler = build.get_compiler();
 
-    build.flag(
-        "-O2 -Wall -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
-    );
+    // build.flag(
+    //     "-O2 -Wall -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
+    // );
 
     if is_release {
         build.define("NDEBUG", None);
@@ -56,7 +56,7 @@ fn build() {
 }
 
 pub fn main() {
-    println!("cargo:rerun-if-changed=edflib-src");
+    println!("cargo:rerun-if-changed=./edflib-src");
     generate_bindings();
     build();
 }
