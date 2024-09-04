@@ -1,0 +1,3 @@
+[submodule "EDFlib"]
+	path = EDFlib
+	url = https://gitlab.com/Teuniz/EDFlib.git
