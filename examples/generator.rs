@@ -31,11 +31,11 @@ const SMP_FREQ_3: i32 = 217;
 const FILE_DURATION: i64 = 600;
 const BDF_FORMAT: bool = false;
 const TRIGGERS_SIZE: usize = 512;
-const BUFFER_SIZE: usize = 1000;
+const BUFFER_SIZE: usize = 1_000;
 const OUTPUT_NAME: &str = "generator";
 
 // https://en.cppreference.com/w/cpp/numeric/random/RAND_MAX
-pub const RAND_MAX: c_int = 2147483647;
+pub const RAND_MAX: c_int = 2_147_483_647;
 
 #[link(name = "c")]
 extern "C" {
@@ -44,9 +44,7 @@ extern "C" {
 }
 
 fn str_to_char(input: &str) -> *const c_char {
-    let c_str = CString::new(input).unwrap();
-    let result: *const c_char = c_str.as_ptr() as *const c_char;
-    result
+    CString::new(input).unwrap().into_raw()
 }
 
 struct EventStats {
@@ -91,7 +89,7 @@ pub fn main() {
     let hdl = unsafe { edfopen_file_writeonly(path, filetype, number_of_signals) };
 
     if hdl < 0 {
-        return println!("error: edfopen_file_writeonly()");
+        return println!("error: edfopen_file_writeonly() {hdl}");
     }
 
     for i in 0..number_of_signals {
