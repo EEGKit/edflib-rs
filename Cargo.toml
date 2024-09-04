@@ -3,7 +3,7 @@ name = "edflib-sys"
 version = "0.0.1"
 description = "Rust binding for EDFlib, C/C++ library to read/write EDF+ and BDF+ files."
 keywords = ["rust", "EDF", "EDFlib", "binding", "EEG"]
-license = "MIT"
+license-file = "LICENSE"
 edition = "2021"
 
 [lib]

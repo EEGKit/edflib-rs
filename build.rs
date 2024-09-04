@@ -44,10 +44,6 @@ fn build() {
     let is_release = env::var("PROFILE").unwrap() == "release";
     let _compiler = build.get_compiler();
 
-    // build.flag(
-    //     "-O2 -Wall -Wextra -Wshadow -Wformat-nonliteral -Wformat-security -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
-    // );
-
     if is_release {
         build.define("NDEBUG", None);
     }
