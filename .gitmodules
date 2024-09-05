@@ -4,3 +4,9 @@
 [submodule "edflib-src"]
 	path = crates/edflib-sys/EDFlib
 	url = https://gitlab.com/Teuniz/EDFlib.git
+[submodule "crates/edflib-sys/edflib-sys"]
+	path = crates/edflib-sys/edflib-sys
+	url = https://gitlab.com/Teuniz/EDFlib.git
+[submodule "crates/edflib-sys/edflib-src"]
+	path = crates/edflib-sys/edflib-src
+	url = https://gitlab.com/Teuniz/EDFlib.git
