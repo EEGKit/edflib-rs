@@ -1,4 +1,4 @@
-use std::{ ffi::{ CStr, CString }, os::raw::{ c_char, c_int } };
+use std::{ ffi::{ CStr, CString }, mem::MaybeUninit, os::raw::{ c_char, c_int } };
 
 use edflib_sys::*;
 
@@ -11,93 +11,16 @@ fn char_to_str(ptr: *mut i8) -> String {
     result
 }
 
-fn empty_char() -> [i8; 81] {
-    let result: [i8; 81] = (0..81)
-        .map(|_| 0)
-        .collect::<Vec<_>>()
-        .try_into()
-        .expect("wrong size iterator");
-
-    result
-}
-
-fn default_edf_param_struct() -> edf_param_struct {
-    let result = edf_param_struct {
-        label: Default::default(),
-        smp_in_file: Default::default(),
-        phys_max: Default::default(),
-        phys_min: Default::default(),
-        dig_max: Default::default(),
-        dig_min: Default::default(),
-        smp_in_datarecord: Default::default(),
-        physdimension: Default::default(),
-        prefilter: empty_char(),
-        transducer: empty_char(),
-    };
-
-    result
-}
-
-fn empty_signalparam() -> [edflib_param_t; 4096] {
-    let result: [edflib_param_t; 4096] = (0..4096)
-        .map(|_| default_edf_param_struct())
-        .collect::<Vec<_>>()
-        .try_into()
-        .expect("wrong size iterator");
-
-    result
-}
-
-fn default_hdr() -> edf_hdr_struct {
-    let hdr = edf_hdr_struct {
-        handle: Default::default(),
-        filetype: Default::default(),
-        edfsignals: Default::default(),
-        file_duration: Default::default(),
-        startdate_day: Default::default(),
-        startdate_month: Default::default(),
-        startdate_year: Default::default(),
-        starttime_subsecond: Default::default(),
-        starttime_second: Default::default(),
-        starttime_minute: Default::default(),
-        starttime_hour: Default::default(),
-        patient: empty_char(),
-        recording: empty_char(),
-        patientcode: empty_char(),
-        sex: Default::default(),
-        gender: Default::default(),
-        birthdate: Default::default(),
-        birthdate_day: Default::default(),
-        birthdate_month: Default::default(),
-        birthdate_year: Default::default(),
-        patient_name: empty_char(),
-        patient_additional: empty_char(),
-        admincode: empty_char(),
-        technician: empty_char(),
-        equipment: empty_char(),
-        recording_additional: empty_char(),
-        datarecord_duration: Default::default(),
-        datarecords_in_file: Default::default(),
-        annotations_in_file: Default::default(),
-        signalparam: empty_signalparam(),
-    };
-
-    hdr
-}
-
 pub fn main() {
-    // let hdr = unsafe { MaybeUninit::<*mut edf_hdr_struct>::zeroed().assume_init() };
-    // let hdr = unsafe { MaybeUninit::uninit().assume_init() };
-    // let hdr = unsafe { MaybeUninit::uninit().assume_init() };
-    let mut hdr = default_hdr();
+    // println!("usage: test_edflib <file> <signal nr>");
+
+    let mut hdr = unsafe { MaybeUninit::uninit().assume_init() };
 
     let path: *const c_char = CString::new("./generator.edf").unwrap().into_raw();
 
     println!("edflib-sys version {}", edflib_sys::EDFLIBSYS_VERSION.unwrap());
     let version = unsafe { edflib_sys::edflib_version() };
     println!("edflib version {}", (version as f64) / (100 as f64));
-
-    // println!("usage: test_edflib <file> <signal nr>");
 
     let mut channel = CHANNEL;
     if channel < 1 {
