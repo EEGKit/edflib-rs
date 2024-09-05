@@ -104,12 +104,23 @@ version = "0.0.1"
 dependencies = [
  "anyhow",
  "derive-new",
- "edflib-sys",
+ "edflib-sys 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "edflib-sys"
 version = "0.0.1"
+dependencies = [
+ "bindgen",
+ "cc",
+ "cmake",
+]
+
+[[package]]
+name = "edflib-sys"
+version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "86e961203bed4619feb239505a4dd91653c3558678cb04672b7ddbf1c33e99b8"
 dependencies = [
  "bindgen",
  "cc",
