@@ -3,6 +3,7 @@ name = "edflib-sys"
 version = "0.0.1"
 description = "Rust low-level binding for EDFlib, C/C++ library to read/write EDF+ and BDF+ files."
 keywords = ["rust", "EDF", "EDFlib", "binding", "EEG"]
+repository = "https://github.com/eugenehp/edflib-rs"
 license-file = "LICENSE"
 edition = "2021"
 resolver = "2"

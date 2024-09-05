@@ -2,6 +2,7 @@
 name = "edflib"
 version = "0.0.1"
 description = "Idiomatic bindings for the EDFlib"
+repository = "https://github.com/eugenehp/edflib-rs"
 keywords = ["rust", "EDF", "EDFlib", "binding", "EEG"]
 authors = ["Eugene Hauptmann"]
 license = "MIT"
