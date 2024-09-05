@@ -1,6 +1,6 @@
 use std::{ env, path::PathBuf };
 
-const EDFLIB_SOURCE_DIR: &str = "../../edflib-src";
+const EDFLIB_SOURCE_DIR: &str = "./edflib-src";
 const EDFLIB_HEADER: &str = "edflib.h";
 const EDFLIB_SRC: &str = "edflib.c";
 const EDFLIB: &str = "edflib-src";
