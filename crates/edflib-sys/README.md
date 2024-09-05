@@ -1,6 +1,20 @@
 # edflib-sys
 
-Rust binding for EDFlib, C/C++ library to read/write EDF+ and BDF+ files.
+Rust low-level binding for EDFlib, C/C++ library to read/write EDF+ and BDF+ files.
+
+## Examples
+
+Generate `edf` file:
+
+```shell
+cargo run --example generator
+```
+
+Read `edf` file:
+
+```shell
+cargo run --example reader
+```
 
 ## Licenses
 

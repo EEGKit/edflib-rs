@@ -1,0 +1,17 @@
+[package]
+name = "edflib"
+version = "0.0.1"
+description = "Idiomatic bindings for the EDFlib"
+keywords = ["rust", "EDF", "EDFlib", "binding", "EEG"]
+authors = ["Eugene Hauptmann"]
+license = "MIT"
+edition = "2021"
+resolver = "2"
+
+[lib]
+
+[dependencies]
+anyhow = "1.0.86"
+derive-new = "0.7.0"
+# edflib-sys = {version = "*"}
+edflib-sys = {version = "*", path = "../edflib-sys"}

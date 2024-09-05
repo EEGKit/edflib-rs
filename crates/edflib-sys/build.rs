@@ -1,11 +1,18 @@
 use std::{ env, path::PathBuf };
 
-const EDFLIB_SOURCE_DIR: &str = "edflib-src";
+const EDFLIB_SOURCE_DIR: &str = "../../edflib-src";
 const EDFLIB_HEADER: &str = "edflib.h";
 const EDFLIB_SRC: &str = "edflib.c";
+const EDFLIB: &str = "edflib-src";
+
+fn get_dir() -> String {
+    let path = env::current_dir().unwrap();
+    let dir = format!("{}/{}", path.to_str().unwrap(), EDFLIB_SOURCE_DIR);
+    dir
+}
 
 fn generate_bindings() {
-    let edflib_header_path = PathBuf::from(EDFLIB_SOURCE_DIR).join(EDFLIB_HEADER);
+    let edflib_header_path = PathBuf::from(get_dir()).join(EDFLIB_HEADER);
     let librs_path = PathBuf::from("src").join("lib.rs");
 
     let bb = bindgen::Builder
@@ -34,10 +41,11 @@ fn generate_bindings() {
 }
 
 fn build() {
+    let dir = get_dir();
     let mut bb = cc::Build::new();
     let build = bb
-        .files([PathBuf::from(EDFLIB_SOURCE_DIR).join(EDFLIB_SRC)])
-        .include(PathBuf::from(EDFLIB_SOURCE_DIR));
+        .files([PathBuf::from(dir.clone()).join(EDFLIB_SRC)])
+        .include(PathBuf::from(dir.clone()));
 
     let _target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
     let _target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
@@ -48,11 +56,11 @@ fn build() {
         build.define("NDEBUG", None);
     }
     build.warnings(false);
-    build.compile(EDFLIB_SOURCE_DIR);
+    build.compile(EDFLIB);
 }
 
 pub fn main() {
-    println!("cargo:rerun-if-changed=./edflib-src");
+    println!("cargo:rerun-if-changed={}", EDFLIB_SOURCE_DIR);
     generate_bindings();
     build();
 }
