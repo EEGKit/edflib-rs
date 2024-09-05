@@ -1,13 +1,14 @@
-use std::{ ffi::CString, os::raw::{ c_char, c_int } };
+use std::{ ffi::{ CStr, CString }, os::raw::{ c_char, c_int } };
 
 use edflib_sys::*;
 
 const SAMPLES_READ: usize = 200;
 const CHANNEL: i32 = 1;
 
-fn chat_to_str(ptr: *mut i8) -> String {
-    let cstr = unsafe { CString::from_raw(ptr) };
-    cstr.to_str().unwrap().to_string()
+fn char_to_str(ptr: *mut i8) -> String {
+    let cstr = unsafe { CStr::from_ptr(ptr) };
+    let result = cstr.to_str().unwrap().to_owned().to_string();
+    result
 }
 
 fn empty_char() -> [i8; 81] {
@@ -140,7 +141,7 @@ pub fn main() {
     println!("filetype: {}", hdr.filetype);
     println!("edfsignals: {}", hdr.edfsignals);
     #[cfg(target_os = "windows")]
-    println!("file duration: %I64d seconds", hdr.file_duration / (EDFLIB_TIME_DIMENSION as i64));
+    println!("file duration: {} seconds", hdr.file_duration / (EDFLIB_TIME_DIMENSION as i64));
 
     #[cfg(not(target_os = "windows"))]
     println!("file duration: {} seconds", hdr.file_duration / (EDFLIB_TIME_DIMENSION as i64));
@@ -164,17 +165,17 @@ pub fn main() {
         hdr.starttime_subsecond
     );
 
-    println!("patient: {}", chat_to_str(hdr.patient.as_mut_ptr()));
-    println!("recording: {}", chat_to_str(hdr.recording.as_mut_ptr()));
-    println!("patientcode: {}", chat_to_str(hdr.patientcode.as_mut_ptr()));
-    println!("sex: {}", chat_to_str(hdr.sex.as_mut_ptr()));
-    println!("birthdate: {}", chat_to_str(hdr.birthdate.as_mut_ptr()));
-    println!("patient_name: {}", chat_to_str(hdr.patient_name.as_mut_ptr()));
-    println!("patient_additional: {}", chat_to_str(hdr.patient_additional.as_mut_ptr()));
-    println!("admincode: {}", chat_to_str(hdr.admincode.as_mut_ptr()));
-    println!("technician: {}", chat_to_str(hdr.technician.as_mut_ptr()));
-    println!("equipment: {}", chat_to_str(hdr.equipment.as_mut_ptr()));
-    println!("recording_additional: {}", chat_to_str(hdr.recording_additional.as_mut_ptr()));
+    println!("patient: {}", char_to_str(hdr.patient.as_mut_ptr()));
+    println!("recording: {}", char_to_str(hdr.recording.as_mut_ptr()));
+    println!("patientcode: {}", char_to_str(hdr.patientcode.as_mut_ptr()));
+    println!("sex: {}", char_to_str(hdr.sex.as_mut_ptr()));
+    println!("birthdate: {}", char_to_str(hdr.birthdate.as_mut_ptr()));
+    println!("patient_name: {}", char_to_str(hdr.patient_name.as_mut_ptr()));
+    println!("patient_additional: {}", char_to_str(hdr.patient_additional.as_mut_ptr()));
+    println!("admincode: {}", char_to_str(hdr.admincode.as_mut_ptr()));
+    println!("technician: {}", char_to_str(hdr.technician.as_mut_ptr()));
+    println!("equipment: {}", char_to_str(hdr.equipment.as_mut_ptr()));
+    println!("recording_additional: {}", char_to_str(hdr.recording_additional.as_mut_ptr()));
     println!(
         "datarecord duration: {} seconds",
         hdr.datarecord_duration / (EDFLIB_TIME_DIMENSION as i64)
@@ -194,7 +195,7 @@ pub fn main() {
 
     println!("signal parameters:");
 
-    println!("label: {}", chat_to_str(hdr.signalparam[channel as usize].label.as_mut_ptr()));
+    println!("label: {}", char_to_str(hdr.signalparam[channel as usize].label.as_mut_ptr()));
     #[cfg(target_os = "windows")]
     println!("samples in file: {}", hdr.signalparam[channel as usize].smp_in_file);
     #[cfg(not(target_os = "windows"))]
@@ -207,15 +208,15 @@ pub fn main() {
     println!("digital minimum: {}", hdr.signalparam[channel as usize].dig_min);
     println!(
         "physical dimension: {}",
-        chat_to_str(hdr.signalparam[channel as usize].physdimension.as_mut_ptr())
+        char_to_str(hdr.signalparam[channel as usize].physdimension.as_mut_ptr())
     );
     println!(
         "prefilter: {}",
-        chat_to_str(hdr.signalparam[channel as usize].prefilter.as_mut_ptr())
+        char_to_str(hdr.signalparam[channel as usize].prefilter.as_mut_ptr())
     );
     println!(
         "transducer: {}",
-        chat_to_str(hdr.signalparam[channel as usize].transducer.as_mut_ptr())
+        char_to_str(hdr.signalparam[channel as usize].transducer.as_mut_ptr())
     );
     println!(
         "samplefrequency: {}",
@@ -262,8 +263,8 @@ pub fn main() {
                 "annotation: onset is {}.{:07} sec    duration is {}    description is \"{}\"",
                 annot.onset / (EDFLIB_TIME_DIMENSION as i64),
                 annot.onset % (EDFLIB_TIME_DIMENSION as i64),
-                chat_to_str(annot.duration.as_mut_ptr()),
-                chat_to_str(annot.annotation.as_mut_ptr())
+                char_to_str(annot.duration.as_mut_ptr()),
+                char_to_str(annot.annotation.as_mut_ptr())
             );
         }
     }
@@ -309,7 +310,7 @@ pub fn main() {
     println!("read {} samples, started at {} seconds from start of file:", n, x);
 
     for i in 0..n {
-        print!("{:.0}  ", buf[i as usize]);
+        print!("{:.0}   ", buf[i as usize]);
     }
     unsafe {
         edfclose_file(hdl);

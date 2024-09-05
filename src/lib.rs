@@ -259,44 +259,44 @@ extern "C" {
     pub fn edfopen_file_readonly(
         path: *const ::std::os::raw::c_char,
         edfhdr: *mut edflib_hdr_t,
-        read_annotations: ::std::os::raw::c_int
+        read_annotations: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Reads \\p n samples from \\p edfsignal, starting from the current sample position indicator, into \\p buf (edfsignal starts at 0).\n The values are converted to their physical values e.g. microVolts, beats per minute, etc.\n\n @param[in] handle\n File handle.\n @param[in] edfsignal\n The zero-based index of the signal.\n @param[in] n\n Number of samples to read. The sample position indicator will be increased with the same amount.\n @param[out] buf\n Pointer to a buffer, size must be equal to, or bigger than, sizeof(double[n])\n\n @return\n The number of samples read (this can be less than \\p n or zero!) or -1 in case of an error"]
     pub fn edfread_physical_samples(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
         n: ::std::os::raw::c_int,
-        buf: *mut f64
+        buf: *mut f64,
     ) -> ::std::os::raw::c_int;
     #[doc = " Reads \\p n samples from \\p edfsignal, starting from the current sample position indicator, into \\p buf (edfsignal starts at 0).\n The values are the \"raw\" digital values (e.g. from an ADC).\n\n @param[in] handle\n File handle.\n @param[in] edfsignal\n The zero-based index of the signal.\n @param[in] n\n Number of samples to read. The sample position indicator will be increased with the same amount.\n @param[out] buf\n Pointer to a buffer, size must be equal to, or bigger than, sizeof(double[n])\n\n @return\n The number of samples read (this can be less than \\p n or zero!) or -1 in case of an error"]
     pub fn edfread_digital_samples(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
         n: ::std::os::raw::c_int,
-        buf: *mut ::std::os::raw::c_int
+        buf: *mut ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the sample position indicator for the edfsignal pointed to by \\p edfsignal.\n The new position, measured in samples, is obtained by adding offset samples to the position specified by \\p whence.\n If \\p whence is set to EDFSEEK_SET, EDFSEEK_CUR, or EDFSEEK_END, the offset is relative to the start of the file,\n the current position indicator, or end-of-file, respectively.\n Note that every signal has it's own independent sample position indicator and \\p edfseek() affects only one of them.\n\n @param[in] handle\n File handle.\n @param[in] edfsignal\n The zero-based index of the signal.\n @param[in] offset\n Offset measured in samples.\n @param[in] whence\n Reference for \\p offset:\n - EDFSEEK_SET start of the file\n - EDFSEEK_CUR current position\n - EDFSEEK_END end of the file\n\n @return\n The current offset or -1 in case of an error."]
     pub fn edfseek(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
         offset: ::std::os::raw::c_longlong,
-        whence: ::std::os::raw::c_int
+        whence: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_longlong;
     #[doc = " Obtains the current value of the sample position indicator for the edfsignal pointed to by \\p edfsignal.\n Note that every signal has it's own independent sample position indicator and \\p edftell() affects only one of them.\n\n @param[in] handle\n File handle.\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @return\n The current offset or -1 in case of an error."]
     pub fn edftell(
         handle: ::std::os::raw::c_int,
-        edfsignal: ::std::os::raw::c_int
+        edfsignal: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_longlong;
     #[doc = " Sets the sample position indicator for the edfsignal pointed to by \\p edfsignal to the beginning of the file.\n It is equivalent to: \\p edfseek(handle, edfsignal, 0LL, EDFSEEK_SET).\n Note that every signal has it's own independent sample position indicator and \\p edfrewind() affects only one of them.\n\n @param[in] handle\n File handle.\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @return\n 0 on success or -1 in case of an error."]
     pub fn edfrewind(
         handle: ::std::os::raw::c_int,
-        edfsignal: ::std::os::raw::c_int
+        edfsignal: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Fills the edflib_annotation_t structure with the annotation \\p n.\n The string that describes the annotation/event is encoded in UTF-8.\n To obtain the number of annotations in a file, check edf_hdr_struct -> annotations_in_file.\n\n @param[in] handle\n File handle.\n @param[in] n\n The zero-based index number of the list of annotations.\n @param[out] annot\n Pointer to a struct that will be filled with the annotation.\n\n @return\n 0 on success or -1 in case of an error."]
     pub fn edf_get_annotation(
         handle: ::std::os::raw::c_int,
         n: ::std::os::raw::c_int,
-        annot: *mut edflib_annotation_t
+        annot: *mut edflib_annotation_t,
     ) -> ::std::os::raw::c_int;
     #[doc = " Closes (and in case of writing, finalizes) the file.\n\n This function MUST be called when you have finished reading or writing\n This function is required after reading or writing. Failing to do so will cause\n unnecessary memory usage and in case of writing it will cause a corrupted or incomplete file.\n\n @param[in] handle\n File handle.\n\n @return\n 0 on success or -1 in case of an error."]
     pub fn edfclose_file(handle: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
@@ -312,7 +312,7 @@ extern "C" {
     pub fn edfopen_file_writeonly(
         path: *const ::std::os::raw::c_char,
         filetype: ::std::os::raw::c_int,
-        number_of_signals: ::std::os::raw::c_int
+        number_of_signals: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " This is a convenience function that can create a new EDF file and initializes the most important parameters.<br>\n It assumes that all signals are sharing the same parameters (you can still change them though).<br>\n Warning: an already existing file with the same name will be silently overwritten without advance warning!<br>\n\n @param[in] path\n A null-terminated string containing the path and name of the file.\n\n @param[in] filetype\n Must be EDFLIB_FILETYPE_EDFPLUS or EDFLIB_FILETYPE_BDFPLUS.\n\n @param[in] number_of_signals\n The number of signals you want to store into the file<br>\n (excluding annotation signals, the library will take care of that).\n\n @param[in] samplefrequency\n Sample frequency for all signals. (In reality, it sets the number of samples per datarecord which equals the sample frequency only when<br>\n the datarecords have a duration of one second which is the default here.)\n\n @param[in] phys_max_min\n Physical maximum and minimum for all signals.\n\n @param[in] phys_dim\n Pointer to a NULL-terminated ASCII-string containing the physical dimension (unit) for all signals (\"uV\", \"BPM\", \"mA\", \"Degr.\", etc.).\n\n @return\n A file handle on success or a negative number in case of an error:\n - EDFLIB_MALLOC_ERROR\n - EDFLIB_NO_SUCH_FILE_OR_DIRECTORY\n - EDFLIB_MAXFILES_REACHED\n - EDFLIB_FILE_ALREADY_OPENED\n - EDFLIB_NUMBER_OF_SIGNALS_INVALID\n - EDFLIB_ARCH_ERROR"]
     pub fn edfopen_file_writeonly_with_params(
@@ -321,61 +321,61 @@ extern "C" {
         number_of_signals: ::std::os::raw::c_int,
         samplefrequency: ::std::os::raw::c_int,
         phys_max_min: f64,
-        phys_dim: *const ::std::os::raw::c_char
+        phys_dim: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the sample frequency of signal edfsignal. In reality, it sets the number of samples in a datarecord<br>\n which equals the sample frequency only when the datarecords have a duration of one second.<br>\n The effective sample frequency is: samplefrequency / datarecord duration<br>\n This function is required for every signal (except when using edfopen_file_writeonly_with_params()) and can be called<br>\n only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] samplefrequency\n Sample frequency, must be > 0;\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_samplefrequency(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        samplefrequency: ::std::os::raw::c_int
+        samplefrequency: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the maximum physical value of signal edfsignal. (the value of the input of the ADC when the output equals the value of \"digital maximum\")<br>\n It is the highest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level.<br>\n In other words, it is the highest value that CAN occur in the recording.<br>\n Must be un-equal to physical minimum.<br>\n This function is required for every signal (except when using edfopen_file_writeonly_with_params()) and can be called<br>\n only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] phys_max\n Physical maximum, must be != physical minimum;\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_physical_maximum(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        phys_max: f64
+        phys_max: f64,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the minimum physical value of signal edfsignal. (the value of the input of the ADC when the output equals the value of \"digital minimum\")<br>\n It is the lowest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level.<br>\n In other words, it is the lowest value that CAN occur in the recording.<br>\n Must be un-equal to physical maximum.<br>\n This function is required for every signal (except when using edfopen_file_writeonly_with_params()) and can be called<br>\n only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] phys_min\n Physical minimum, must be != physical maximum;\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_physical_minimum(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        phys_min: f64
+        phys_min: f64,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the maximum digital value of signal edfsignal. The maximum value is 32767 for EDF+ and 8388607 for BDF+.<br>\n It is the highest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level.<br>\n In other words, it is the highest value that CAN occur in the recording.<br>\n Must be higher than digital minimum.<br>\n This function is required for every signal (except when using edfopen_file_writeonly_with_params()) and can be called<br>\n only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] dig_max\n Digital maximum, must be > digital minimum;\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_digital_maximum(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        dig_max: ::std::os::raw::c_int
+        dig_max: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the minimum digital value of signal edfsignal. The minimum value is -32768 for EDF+ and -8388608 for BDF+.<br>\n It is the lowest value that the equipment is able to record. It does not necessarily mean the signal recorded reaches this level.<br>\n In other words, it is the lowest value that CAN occur in the recording.<br>\n Must be lower than digital maximum.<br>\n This function is required for every signal (except when using edfopen_file_writeonly_with_params()) and can be called<br>\n only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] dig_min\n Digital minimum, must be < digital maximum;\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_digital_minimum(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        dig_min: ::std::os::raw::c_int
+        dig_min: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the label (name) of signal \\p edfsignal. (\"EEG FP1\", \"SaO2\", etc.).<br>\n This function is recommended for every signal when you want to write a file<br>\n and can be called only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] label\n A pointer to a NULL-terminated ASCII-string containing the label (name) of the signal \\p edfsignal.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_label(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        label: *const ::std::os::raw::c_char
+        label: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the prefilter of signal \\p edfsignal e.g. \"HP:0.1Hz\", \"LP:75Hz N:50Hz\", etc.<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] prefilter\n A pointer to a NULL-terminated ASCII-string containing the prefilter text of the signal \\p edfsignal.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_prefilter(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        prefilter: *const ::std::os::raw::c_char
+        prefilter: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the transducer of signal \\p edfsignal e.g. \"AgAgCl cup electrodes\", etc.<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] transducer\n A pointer to a NULL-terminated ASCII-string containing the transducer text of the signal \\p edfsignal.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_transducer(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        transducer: *const ::std::os::raw::c_char
+        transducer: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the physical dimension (unit) of signal \\p edfsignal. (\"uV\", \"BPM\", \"mA\", \"Degr.\", etc.).<br>\n This function is recommended for every signal when you want to write a file<br>\n and can be called only after opening a file in write mode and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] edfsignal\n The zero-based index of the signal.\n\n @param[in] phys_dim\n A pointer to a NULL-terminated ASCII-string containing the physical dimension (unit) of the signal \\p edfsignal.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_physical_dimension(
         handle: ::std::os::raw::c_int,
         edfsignal: ::std::os::raw::c_int,
-        phys_dim: *const ::std::os::raw::c_char
+        phys_dim: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the startdate and starttime.<br>\n If not called, the library will use the system date and time at runtime.<br>\n This function is optional and can be called only after opening a file in write mode<br>\n and before the first sample write action.<br>\n Note: for anonymization purposes, the consensus is to use 1985-01-01 00:00:00 for the startdate and starttime.\n\n @param[in] handle\n File handle.\n\n @param[in] startdate_year\n 1985 - 2084 inclusive\n\n @param[in] startdate_month\n 1 - 12 inclusive\n\n @param[in] startdate_day\n 1 - 31 inclusive\n\n @param[in] starttime_hour\n 0 - 23 inclusive\n\n @param[in] starttime_minute\n 0 - 59 inclusive\n\n @param[in] starttime_second\n 0 - 59 inclusive\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_startdatetime(
@@ -385,143 +385,143 @@ extern "C" {
         startdate_day: ::std::os::raw::c_int,
         starttime_hour: ::std::os::raw::c_int,
         starttime_minute: ::std::os::raw::c_int,
-        starttime_second: ::std::os::raw::c_int
+        starttime_second: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the subject name<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] patientname\n A pointer to a NULL-terminated ASCII-string containing the subject name.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_patientname(
         handle: ::std::os::raw::c_int,
-        patientname: *const ::std::os::raw::c_char
+        patientname: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the subject code<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] patientcode\n A pointer to a NULL-terminated ASCII-string containing the subject code.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_patientcode(
         handle: ::std::os::raw::c_int,
-        patientcode: *const ::std::os::raw::c_char
+        patientcode: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the sex of the subject. 1 is male, 0 is female.<br>\n This function is optional and can be called only after opening a file in writemode<br>\n and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] sex\n 1: male, 0: female.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_sex(
         handle: ::std::os::raw::c_int,
-        sex: ::std::os::raw::c_int
+        sex: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     pub fn edf_set_gender(
         handle: ::std::os::raw::c_int,
-        sex: ::std::os::raw::c_int
+        sex: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the subject birthdate.<br>\n This function is optional and can be called only after opening a file in write mode<br>\n and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] birthdate_year\n 1800 - 3000 inclusive\n\n @param[in] birthdate_month\n 1 - 12 inclusive\n\n @param[in] birthdate_day\n 1 - 31 inclusive\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_birthdate(
         handle: ::std::os::raw::c_int,
         birthdate_year: ::std::os::raw::c_int,
         birthdate_month: ::std::os::raw::c_int,
-        birthdate_day: ::std::os::raw::c_int
+        birthdate_day: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the additional subject info<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] patient_additional\n A pointer to a NULL-terminated ASCII-string containing the additional subject info.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_patient_additional(
         handle: ::std::os::raw::c_int,
-        patient_additional: *const ::std::os::raw::c_char
+        patient_additional: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the administration code<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] admincode\n A pointer to a NULL-terminated ASCII-string containing the administration code.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_admincode(
         handle: ::std::os::raw::c_int,
-        admincode: *const ::std::os::raw::c_char
+        admincode: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the technicians name or code<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] technician\n A pointer to a NULL-terminated ASCII-string containing the technicians name or code.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_technician(
         handle: ::std::os::raw::c_int,
-        technician: *const ::std::os::raw::c_char
+        technician: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the equipment brand and/or model<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] equipment\n A pointer to a NULL-terminated ASCII-string containing the equipment brand and/or model<br>\n used for the recording.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_equipment(
         handle: ::std::os::raw::c_int,
-        equipment: *const ::std::os::raw::c_char
+        equipment: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the additional info about the recording.<br>\n This function is optional and can be called only after opening a file in writemode and<br>\n before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] recording_additional\n A pointer to a NULL-terminated ASCII-string containing the additional info about the recording.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_recording_additional(
         handle: ::std::os::raw::c_int,
-        recording_additional: *const ::std::os::raw::c_char
+        recording_additional: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes n physical samples (uV, mA, Ohm) from \\p buf belonging to one signal<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n The physical samples will be converted to digital samples using the<br>\n values of physical maximum, physical minimum, digital maximum and digital minimum.<br>\n Size of \\p buf must be equal to or bigger than sizeof(double[samples per datarecord]).<br>\n Call this function for every signal in the file. The order is important:<br>\n When there are 4 signals in the file,  the order of calling this function<br>\n must be: signal 0, signal 1, signal 2, signal 3, signal 0, signal 1, signal 2, etc.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edfwrite_physical_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut f64
+        buf: *mut f64,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes physical samples (uV, mA, Ohm) from \\p buf <br>\n \\p buf must be filled with samples from all signals, starting with n samples of signal 0, n samples of signal 1, n samples of signal 2, etc.<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n The physical samples will be converted to digital samples using the<br>\n values of physical maximum, physical minimum, digital maximum and digital minimum.<br>\n The number of samples written equals the sum of the samples per datarecord of all signals.\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_blockwrite_physical_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut f64
+        buf: *mut f64,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes n \"raw\" digital samples from \\p buf belonging to one signal<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n Size of \\p buf should be equal to or bigger than sizeof(short[samples per datarecord]).<br>\n Call this function for every signal in the file. The order is important:<br>\n When there are 4 signals in the file,  the order of calling this function<br>\n must be: signal 0, signal 1, signal 2, signal 3, signal 0, signal 1, signal 2, etc.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edfwrite_digital_short_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut ::std::os::raw::c_short
+        buf: *mut ::std::os::raw::c_short,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes n \"raw\" digital samples from \\p buf belonging to one signal<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n The 16 (or 24 in case of BDF+) least significant bits of the samples will be written to the<br>\n file without any conversion.<br>\n Size of \\p buf should be equal to or bigger than sizeof(int[samples per datarecord]).<br>\n Call this function for every signal in the file. The order is important:<br>\n When there are 4 signals in the file,  the order of calling this function<br>\n must be: signal 0, signal 1, signal 2, signal 3, signal 0, signal 1, signal 2, etc.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edfwrite_digital_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut ::std::os::raw::c_int
+        buf: *mut ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes \"raw\" digital samples from \\p buf <br>\n \\p buf must be filled with samples from all signals, starting with n samples of signal 0, n samples of signal 1, n samples of signal 2, etc.<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n One sample equals 3 bytes, order is little endian (least significant byte first).<br>\n Encoding is second's complement, most significant bit of most significant byte is the sign-bit.<br>\n Because the size of a 3-byte sample is 24-bit, this function can only be used when writing a BDF+ file.<br>\n The number of samples written equals the sum of the samples per datarecord of all signals.\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_blockwrite_digital_3byte_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut ::std::os::raw::c_void
+        buf: *mut ::std::os::raw::c_void,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes \"raw\" digital samples from \\p buf <br>\n \\p buf must be filled with samples from all signals, starting with n samples of signal 0, n samples of signal 1, n samples of signal 2, etc.<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n One sample equals 2 bytes, order is little endian (least significant byte first).<br>\n Encoding is second's complement, most significant bit of most significant byte is the sign-bit.<br>\n Because the size of a 2-byte sample is 16-bit, this function can only be used when writing an EDF+ file.<br>\n The number of samples written equals the sum of the samples per datarecord of all signals.\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_blockwrite_digital_short_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut ::std::os::raw::c_short
+        buf: *mut ::std::os::raw::c_short,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes \"raw\" digital samples from \\p buf <br>\n \\p buf must be filled with samples from all signals, starting with n samples of signal 0, n samples of signal 1, n samples of signal 2, etc.<br>\n where n is the samplefrequency of that signal.<br>\n Actually, n equals the number of samples per datarecord which equals the samplefrequency only<br>\n when the datarecord duration has the default value of one second!<br>\n The 16 (or 24 in case of BDF+) least significant bits of the samples will be written to the<br>\n file without any conversion.<br>\n The number of samples written equals the sum of the samples per datarecord of all signals.\n\n @param[in] handle\n File handle.\n\n @param[in] buf\n A pointer to a buffer containing the samples.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_blockwrite_digital_samples(
         handle: ::std::os::raw::c_int,
-        buf: *mut ::std::os::raw::c_int
+        buf: *mut ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes an annotation/event to the file.<br>\n This function is optional and can be called only after opening a file in writemode<br>\n and before closing the file.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] onset\n microseconds since start of recording.\n\n @param[in] duration\n microseconds, > 0 or -1 if not used.\n\n @param[in] description\n A null-terminated UTF8-string containing the text that describes the event.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edfwrite_annotation_utf8_hr(
         handle: ::std::os::raw::c_int,
         onset: ::std::os::raw::c_longlong,
         duration: ::std::os::raw::c_longlong,
-        description: *const ::std::os::raw::c_char
+        description: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     pub fn edfwrite_annotation_utf8(
         handle: ::std::os::raw::c_int,
         onset: ::std::os::raw::c_longlong,
         duration: ::std::os::raw::c_longlong,
-        description: *const ::std::os::raw::c_char
+        description: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Writes an annotation/event to the file.<br>\n This function is optional and can be called only after opening a file in writemode<br>\n and before closing the file.\n\n @param[in] handle\n File handle.\n\n @param[in] onset\n microseconds since start of recording.\n\n @param[in] duration\n microseconds, > 0 or -1 if not used.\n\n @param[in] description\n A null-terminated Latin1-string containing the text that describes the event.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edfwrite_annotation_latin1_hr(
         handle: ::std::os::raw::c_int,
         onset: ::std::os::raw::c_longlong,
         duration: ::std::os::raw::c_longlong,
-        description: *const ::std::os::raw::c_char
+        description: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     pub fn edfwrite_annotation_latin1(
         handle: ::std::os::raw::c_int,
         onset: ::std::os::raw::c_longlong,
         duration: ::std::os::raw::c_longlong,
-        description: *const ::std::os::raw::c_char
+        description: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the datarecord duration. The default value is 1 second.<br>\n ATTENTION: the argument \\p duration is expressed in units of 10 microseconds.<br>\n So, if you want to set the datarecord duration to 0.1 second, you must write a value of 10000.<br>\n The datarecord duration must be in the range 0.001 to 60 seconds.<br>\n This function can be used when you want to use a samplerate<br>\n which is not an integer. For example, if you want to use a samplerate of 0.5 Hz,<br>\n set the samplefrequency to 5 Hz and the datarecord duration to 10 seconds,<br>\n or set the samplefrequency to 1 Hz and the datarecord duration to 2 seconds.<br>\n This function is optional and can be called after opening a<br>\n file in writemode and before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] duration\n Datarecord duration expressed in units of 10 microSecond.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_datarecord_duration(
         handle: ::std::os::raw::c_int,
-        duration: ::std::os::raw::c_int
+        duration: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the datarecord duration to a very small value.<br>\n ATTENTION: the argument \\p duration is expressed in units of 1 microSecond.<br>\n The datarecord duration must be in the range 1 to 9999 microseconds.<br>\n This function can be used when you want to use a very high samplerate.<br>\n For example, if you want to use a samplerate of 5 GHz,<br>\n set the samplefrequency to 5000 Hz and the datarecord duration to 1 micro-second.<br>\n Do not use this function if not necessary.<br>\n This function was added to accommodate for high speed ADC's e.g. Digital Sampling Oscilloscopes<br>\n This function is optional and can be called after opening a<br>\n file in writemode and before the first sample write action.\n\n @param[in] handle\n File handle.\n\n @param[in] duration\n Datarecord duration expressed in units of 1 microSecond.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_micro_datarecord_duration(
         handle: ::std::os::raw::c_int,
-        duration: ::std::os::raw::c_int
+        duration: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the number of annotation signals. The default value is 1.<br>\n This function is optional and can be called only after opening a file in writemode<br>\n and before the first sample write action.<br>\n Normally you don't need to change the default value. Only when the number of annotations<br>\n you expect to write is more than the number of datarecords in the recording, you can use<br>\n this function to increase the storage space for annotations.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] annot_signals\n Number of annotation signals, must be in the range 1 - 64 inclusive.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_number_of_annotation_signals(
         handle: ::std::os::raw::c_int,
-        annot_signals: ::std::os::raw::c_int
+        annot_signals: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the subsecond starttime expressed in units of 100 nanoseconds.<br>\n Valid range is 0 to 9999999 inclusive. Default is 0.<br>\n This function is optional and can be called only after opening a file in writemode<br>\n and before the first sample write action.<br>\n It is recommended to use a maximum resolution of not more than 100 microseconds.<br>\n E.g. use 1234000  to set a starttime offset of 0.1234 seconds (instead of for example 1234217).<br>\n In other words, leave the last 3 digits at zero.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] subsecond\n Subsecond starttime expressed in units of 100 nanoseconds.\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_subsecond_starttime(
         handle: ::std::os::raw::c_int,
-        subsecond: ::std::os::raw::c_int
+        subsecond: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
     #[doc = " Sets the preferred position of the annotation channel(s) before, after or in the middle of the list<br>\n of regular signals. The default is to put them at the end (after the regular signals).<br>\n This function is optional and can be called only after opening a file in writemode<br>\n and before the first sample write action.<br>\n\n @param[in] handle\n File handle.\n\n @param[in] pos\n Preferred position of the annotation channel(s):<br>\n EDF_ANNOT_IDX_POS_START<br>\n EDF_ANNOT_IDX_POS_MIDDLE<br>\n EDF_ANNOT_IDX_POS_END<br>\n\n @return\n 0 on success, otherwise -1.<br>"]
     pub fn edf_set_annot_chan_idx_pos(
         handle: ::std::os::raw::c_int,
-        pos: ::std::os::raw::c_int
+        pos: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
