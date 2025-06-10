@@ -56,6 +56,13 @@ fn build() {
         build.define("NDEBUG", None);
     }
     build.warnings(false);
+
+    #[cfg(target_os = "linux")]
+    {
+        build.define("_LARGEFILE64_SOURCE", None);
+        build.define("_LARGEFILE_SOURCE", None);
+    }
+
     build.compile(EDFLIB);
 }
 
