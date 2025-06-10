@@ -4,6 +4,12 @@ Idiomatic bindings for the EDFlib
 
 ## Development
 
+Clone recursively
+
+```shell
+git clone --recursive https://github.com/eugenehp/edflib-rs.git
+```
+
 Force pull original C++ library:
 
 ```shell

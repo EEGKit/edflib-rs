@@ -14,5 +14,5 @@ resolver = "2"
 [dependencies]
 anyhow = "1.0.86"
 derive-new = "0.7.0"
-edflib-sys = {version = "0.0.2"}
-# edflib-sys = {version = "*", path = "../edflib-sys"}
+# edflib-sys = {version = "0.0.2"}
+edflib-sys = {version = "*", path = "../edflib-sys"}
