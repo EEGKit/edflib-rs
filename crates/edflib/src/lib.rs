@@ -1,4 +1,4 @@
-use std::{ ops::Deref, os::raw::c_int, path::PathBuf, sync::{ Arc, Mutex } };
+use std::{ os::raw::c_int, path::PathBuf, sync::{ Arc, Mutex } };
 
 use anyhow::{ anyhow, Result };
 use derive_new::new;
@@ -20,6 +20,8 @@ impl Filetype {
             _ => Filetype::EDF,
         }
     }
+
+    #[allow(unused)]
     fn as_str(&self) -> &str {
         match self {
             Filetype::EDF => "edf",
@@ -48,6 +50,7 @@ impl AnnotationPosition {
 struct Inner {
     #[new(value = "0")]
     hdl: i32,
+    #[allow(unused)]
     #[new(value = "Filetype::EDF")]
     filetype: Filetype,
 }
